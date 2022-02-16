@@ -12,11 +12,11 @@
 			<TR><TH>CÓDIGO</TH><TH>NOMBRE</TH><TH>HORAS</TH><TH>PROFESOR</TH></TR>
 		    <?php 
                 include("funciones.php");
-                eliminarCliente();                  // Borra un cliente si se ha pulsado su papelera
-                procesarModificacionesFormulario(); // Actualiza la información de lo clientes en la BD
-                anadirClienteFormulario();          // Añade nuevo usuario si se han introducido sus datos
-                poblarFormulario();                 // Muestra las filas de los clientes existentes
-                formNuevoCliente();                 // Muestra cajas vacías para crear nuevo cliente
+                deleteAsig();
+                updateAsig();
+                addAsig();
+                showAsig();
+                newAsigForm();
             ?>
         </TABLE><br/>
 		<INPUT TYPE="submit" name="procesar" value="Guardar Cambios">
@@ -29,7 +29,7 @@
 
 <?php
     
-    function formNuevoCliente() {
+    function newAsigForm() {
         ?>
         <TR>
 	        <TD><INPUT TYPE='text' NAME='addCode' size="10"></TD>

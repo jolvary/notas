@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `asignaturas`
 --
 
-CREATE TABLE `asignaturas` (
+create table if not exists `asignaturas` (
   `code` int(4) UNSIGNED NOT NULL,
   `name` varchar(45) COLLATE utf8mb4_spanish_ci NOT NULL,
   `hour` int(2) UNSIGNED NOT NULL,
@@ -52,7 +52,7 @@ INSERT INTO `asignaturas` (`code`, `name`, `hour`, `prof`) VALUES
 -- Estructura de tabla para la tabla `instrumentos`
 --
 
-CREATE TABLE `instrumentos` (
+create table if not exists `instrumentos` (
   `clave` int(10) UNSIGNED NOT NULL,
   `unidad` int(10) UNSIGNED NOT NULL,
   `nombre` varchar(30) COLLATE utf8mb4_spanish_ci NOT NULL,
@@ -76,7 +76,7 @@ INSERT INTO `instrumentos` (`clave`, `unidad`, `nombre`, `peso`, `calificacion`)
 -- Estructura de tabla para la tabla `unidades`
 --
 
-CREATE TABLE `unidades` (
+create table if not exists `unidades` (
   `clave` int(11) NOT NULL,
   `asignatura` int(4) NOT NULL,
   `numero` int(2) NOT NULL,
