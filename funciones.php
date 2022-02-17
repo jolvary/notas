@@ -335,8 +335,8 @@ function showInst() {
 
             echo "<TR>";
 	        echo "    <INPUT TYPE='hidden' name='idInst[$cont]' value='$fila[0]'>";
-			dropUnitInst ();
-	        echo "    <TD><INPUT TYPE='text' name='nomInst[$cont]' value='$fila[2]' size='40'></TD>";
+			dropUnitInst();
+			echo "    <TD><INPUT TYPE='text' name='nomInst[$cont]' value='$fila[2]' size='40'></TD>";
 	        echo "    <TD><INPUT TYPE='text' name='peso[$cont]' value='$fila[3]' size='10'></TD>";
 	        echo "    <TD><INPUT TYPE='text' name='calificacion[$cont]' value='$fila[4]' size='20'></TD>";
 	        echo "    <TD><a href='instrumentos.php?asignatura=$unidad&operacion=eliminar&idInst=$fila[0]'>";
@@ -344,9 +344,7 @@ function showInst() {
             $cont++;
 
         }
-
-
-
+		
 		mysqli_free_result($result);
 
 	}
@@ -448,25 +446,24 @@ function dropUnitInst () {
 	$unidad = $_GET['asignatura'];
 
 	$conn = conectar();
-	$sql = ("SELECT nombre, numero from ESTUDIOS.UNIDADES where asignatura='$unidad'");
+	$sql = ("SELECT * from ESTUDIOS.UNIDADES where asignatura='$unidad'");
 	
 	$result = $conn->query($sql);
 
-	while ($count = mysqli_fetch_array($result)) {
+    echo "<TD><select name='unidad[0]'>";
+    echo "<option value=''></option>";
 
-		echo "<TD><select name='unidad[$count]'>";
+    if ($result) {
 
-		echo "<option value=''></option>";
+        foreach ($result as $fila) {
 
-		if ($result) {
-			foreach ($result as $fila) {
-				echo "<option value='".$fila['numero']."'";
-				
-				echo ">".$fila['nombre']."</option>";
-			}
-		}		
+            echo "<option value='".$fila['numero']."'";
+
+            echo ">".$fila['nombre']."</option>";
+        }
 	}
 
+    echo "</select></td>";
 }
 
 ?>

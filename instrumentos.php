@@ -1,17 +1,19 @@
 <?php
-    //var_dump($_POST);
-    function newInstForm() {
-        ?>
-        <TR>
-	        <TD><INPUT TYPE='text' NAME='addNombre' size="40"></TD>
-	        <TD><INPUT TYPE='text' NAME='addNomInst' size="40"></TD>
-	        <TD><INPUT TYPE='text' NAME='addPeso' size="10"></TD>
-            <TD><INPUT TYPE='text' NAME='addCalificacion' size="20"></TD>
-        </TR>
-        <?php   
-    }
 
     include("funciones.php");
+
+    var_dump($_POST);
+    function newInstForm() {
+
+        echo    "<TR>";
+	    dropUnitInst();
+	    echo    "<TD><INPUT TYPE='text' NAME='addNomInst' size='40'></TD>";
+	    echo    "<TD><INPUT TYPE='text' NAME='addPeso' size='10'></TD>";
+        echo    "<TD><INPUT TYPE='text' NAME='addCalificacion' size='20'></TD>";
+        echo    "</TR>";
+    }
+
+    
 
     $conn = conectar();
     $asig = $_GET['asignatura'];
@@ -47,6 +49,7 @@
                 addInst();
                 showInst();
                 newInstForm();
+
             ?>
         </TABLE><br/>
 		<INPUT TYPE="submit" name="procesar" value="Guardar Cambios">
