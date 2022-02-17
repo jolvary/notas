@@ -314,3 +314,159 @@ function updateUnit() {
 }
 
 ?>
+
+<?php
+
+// OPERACIONES SOBRE LA TABLA INSTRUMENTOS
+
+function showInst() {
+
+	$conn = conectar();
+	$unidad = $_GET['asignatura'];
+    $sql = "SELECT idInst, nombre, nomInst, peso, calificacion FROM ESTUDIOS.INSTRUMENTOS 
+	inner join ESTUDIOS.UNIDADES on numero=unidad where unidad in
+	(SELECT numero FROM ESTUDIOS.UNIDADES where asignatura='$unidad')";
+
+	if ($result = mysqli_query($conn, $sql)) {
+
+        $cont=0;
+
+		while ($fila = mysqli_fetch_row($result)) {
+
+            echo "<TR>";
+	        echo "    <INPUT TYPE='hidden' name='idInst[$cont]' value='$fila[0]'>";
+			dropUnitInst ();
+	        echo "    <TD><INPUT TYPE='text' name='nomInst[$cont]' value='$fila[2]' size='40'></TD>";
+	        echo "    <TD><INPUT TYPE='text' name='peso[$cont]' value='$fila[3]' size='10'></TD>";
+	        echo "    <TD><INPUT TYPE='text' name='calificacion[$cont]' value='$fila[4]' size='20'></TD>";
+	        echo "    <TD><a href='instrumentos.php?asignatura=$unidad&operacion=eliminar&idInst=$fila[0]'>";
+            echo "        <img src='iconos/remove32.png'></a></TD>";
+            $cont++;
+
+        }
+
+
+
+		mysqli_free_result($result);
+
+	}
+
+}
+
+function deleteInst() {
+
+    if(isset($_GET['operacion'])&&$_GET['operacion']=="eliminar") {
+
+        $clave = $_GET['idInst'];
+        $conn = conectar();
+
+	    $sql = "DELETE FROM ESTUDIOS.INSTRUMENTOS WHERE idInst='$clave'";
+		$result = $conn->query($sql);
+
+    }
+
+}
+
+function addInst() {
+
+    if(!isset($_POST['procesar'])||$_POST['procesar']!='Guardar Cambios'){
+
+        return;
+
+     }
+
+	if(!isset($_POST["idInst"]))
+
+        return;
+
+    if(isset($_POST['addNombre'])&&$_POST['addNombre']!="") {
+
+		$conn = conectar();
+
+		$selNum = ($conn->query( "SELECT clave FROM ESTUDIOS.UNIDADES ORDER BY clave DESC LIMIT 1" ));
+		$code = mysqli_fetch_row($selNum);
+		$idUnit = $code[0] + 1;
+		$clave = $_GET['asignatura'];
+     	$uni = $_POST["addNum"];
+        $name = $_POST["addNombre"];
+        $porc = $_POST["addPorcentaje"];
+
+	    $sql = "INSERT INTO ESTUDIOS.UNIDADES ( clave, asignatura, numero, nombre, porcentaje ) VALUES ( '$idUnit', '$clave', '$uni', '$name', '$porc' )";
+	    $result = $conn->query( $sql );
+	
+		if (!$result) {
+
+			die("Ha fallado la conexión debido a : ".mysqli_error($conn));
+
+		}
+
+	}   
+
+}
+
+function reloadInst ($code, $newUnit, $name, $proc ) {
+
+	$conn = conectar();
+	$sql = "UPDATE ESTUDIOS.UNIDADES SET numero='$newUnit', nombre='$name', porcentaje='$proc' WHERE clave='$code'";
+	$result = $conn->query( $sql );
+	
+	if (!$result) {
+
+		die("Ha fallado la conexión debido a : ".mysqli_error($conn));
+
+	}
+
+}
+
+function updateInst() {
+
+    if(!isset($_POST['procesar'])||$_POST['procesar']!='Guardar Cambios'){
+
+       return;
+
+    }
+
+    if(!isset($_POST["clave"])) {
+
+       return;
+
+	}
+	
+	$codes = $_POST["clave"];
+	$newCodes = $_POST["numUnit"];
+	$names = $_POST["nombre"];
+	$procs = $_POST["porcentaje"];
+
+	for($i=0; $i<count($_POST["clave"]); $i++) 
+
+		reloadInst ($codes[$i], $newCodes[$i], $names[$i], $procs[$i] );
+
+}
+
+function dropUnitInst () {
+
+	$unidad = $_GET['asignatura'];
+
+	$conn = conectar();
+	$sql = ("SELECT nombre, numero from ESTUDIOS.UNIDADES where asignatura='$unidad'");
+	
+	$result = $conn->query($sql);
+
+	while ($count = mysqli_fetch_array($result)) {
+
+		echo "<TD><select name='unidad[$count]'>";
+
+		echo "<option value=''></option>";
+
+		if ($result) {
+			foreach ($result as $fila) {
+				echo "<option value='".$fila['numero']."'";
+				
+				echo ">".$fila['nombre']."</option>";
+			}
+		}		
+	}
+
+}
+
+?>

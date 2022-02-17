@@ -53,9 +53,9 @@ INSERT INTO `asignaturas` (`code`, `name`, `hour`, `prof`) VALUES
 --
 
 create table if not exists `instrumentos` (
-  `clave` int(10) UNSIGNED NOT NULL,
+  `idInst` int(10) UNSIGNED NOT NULL,
   `unidad` int(10) UNSIGNED NOT NULL,
-  `nombre` varchar(30) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nomInst` varchar(30) COLLATE utf8mb4_spanish_ci NOT NULL,
   `peso` int(2) UNSIGNED NOT NULL,
   `calificacion` decimal(10,2) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
@@ -64,7 +64,7 @@ create table if not exists `instrumentos` (
 -- Volcado de datos para la tabla `instrumentos`
 --
 
-INSERT INTO `instrumentos` (`clave`, `unidad`, `nombre`, `peso`, `calificacion`) VALUES
+INSERT INTO `instrumentos` (`idInst`, `unidad`, `nomInst`, `peso`, `calificacion`) VALUES
 (1, 1, 'Examen Teórico', 45, '8.50'),
 (2, 1, 'Examen Práctico', 35, '6.30'),
 (3, 1, 'Actividades de Aula', 20, NULL),
